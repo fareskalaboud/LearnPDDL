@@ -1,10 +1,8 @@
-# Hi there!
+# Getting Started with PDDL
 
 Welcome to LearnPDDL, a short guide to getting started with using PDDL.
 
 If you read anything here that you believe requires improvement, [contribute to it on GitHub](https://github.com/fareskalaboud/LearnPDDL). 
-
-# Getting Started
 
 ## Introduction
 
