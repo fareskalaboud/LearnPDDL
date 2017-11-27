@@ -35,4 +35,4 @@ There are certain things we need to keep track of in the "world".
 
 [1] [PDDL's Wikipedia Page](https://en.wikipedia.org/wiki/Planning_Domain_Definition_Language#De_facto_official_versions_of_PDDL)
 
-[2] Fox, M. and Long, D. (2017). PDDL2.1: An Extension to PDDL for Expressing Temporal Planning Domains. [online] Available at: [https://arxiv.org/abs/1106.4561](https://arxiv.org/abs/1106.4561) [Accessed 20 Nov. 2017]. 
+[2] Fox, M. and Long, D. (2003). PDDL2.1: An Extension to PDDL for Expressing Temporal Planning Domains. [online] Available at: [http://www.jair.org/papers/paper1129.html](http://www.jair.org/papers/paper1129.html) [Accessed 20 Nov. 2017]. 
