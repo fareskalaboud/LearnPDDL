@@ -1,5 +1,7 @@
 # Getting Started with PDDL
 
+![#f03c15](https://placehold.it/15/f03c15/000000?text=+) **NOTICE**: This is a work in progress and is being updated weekly.
+
 Welcome to LearnPDDL, a short guide to getting started with using PDDL.
 
 This guide is designed for first-time readers, people who need refreshers and others, like myself, who sometimes need some syntax sanity-checking.
