@@ -67,13 +67,21 @@ Actions, in their simplest form, represent transitions between states in the wor
 
 Both **predicates** and **actions** will become clearer in examples below.
 
-## Super-Simple Example
+## Simple Example
 
 ![Gripper](img/gripper.png)
 
-Let's imagine we have a 
+Let's imagine we have a robot arm (we'll call it Gripper), a block and a box. The gripper is empty, the block is on the table and we want to put the block in the box. 
 
-## Simple Example
+Before we model this in PDDL, let's look at the components of the PDDL problem:
+
+- **Objects**: box, gripper, block.
+- **Predicates**: Is the gripper arm empty? Where is the block?
+- **An initial state**: The gripper arm is empty, the block is on the table.
+- **Goal specification**: The gripper arm is empty, the block is in the box.
+- **Actions/Operators**: Pick up the block, drop the block.
+
+[TBC]
 
 ## Not-so-Simple Example
 
