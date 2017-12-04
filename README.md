@@ -50,7 +50,7 @@ The basic syntax of a domain file is:
   )
   
   (:action
-    <actionn-details>
+    <action-details>
   )
 )
 ```
@@ -59,20 +59,23 @@ where `<domain-name>` is the name of the world.
 
 #### Predicates
 
-If you remember, I mentioned earlier that predicates are facts that we are interested in (e.g. properties of objects), which can be true or false.
+If you remember, I mentioned earlier that predicates are facts that we are interested in (e.g. properties of objects), which can be true or false. They can also be properties of objects. 
 
+#### Actions
+
+Actions, in their simplest form, represent transitions between states in the world. They usually have conditions which must be true in order for them to take place, and effects which change facts in the world.
+
+Both **predicates** and **actions** will become clearer in examples below.
 
 ## Super-Simple Example
 
-[on/off power switch example]
+![Gripper](img/gripper.png)
+
+Let's imagine we have a 
 
 ## Simple Example
 
-[driverlog](files/driverlog)
-
 ## Not-so-Simple Example
-
-[gripper]
 
 ## Past the Basics
 
