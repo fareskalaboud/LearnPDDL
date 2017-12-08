@@ -85,7 +85,7 @@ where `<title>` is the title of the problem file and `<domain-name>` refers to t
 
 ## Simple Example: Let's Eat!
 
-![Gripper](img/gripper.png)
+![Gripper](img/arm-cupcake.png)
 
 Let's imagine we have a robot gripper arm, a cupcake and a plate. The gripper is empty, the cupcake is on the table and we want to put the cupcake on the plate. 
 
