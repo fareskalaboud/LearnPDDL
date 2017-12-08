@@ -6,25 +6,25 @@ Welcome to LearnPDDL, a short guide to getting started with using PDDL.
 
 This guide is designed for first-time readers, people who need refreshers and others, like myself, who sometimes need some syntax sanity-checking.
 
-If you read anything here that you believe needs improvement, [contribute to it on GitHub](https://github.com/fareskalaboud/LearnPDDL).
+If you read anything here that you believe needs improvement, [contribute to it on GitHub](https://github.com/fareskalaboud/LearnPDDL). 
 
 ## Introduction
 
-PDDL one of the few languages designed for the purpose of creating a standard for Artificial Intelligence (AI) planning. It was developed in 1998 and was introduced at ICAPS, with improvements and extensions being built into it over the years [[1]](https://en.wikipedia.org/wiki/Planning_Domain_Definition_Language#De_facto_official_versions_of_PDDL).
+PDDL one of the few languages designed for the purpose of creating a standard for Artificial Intelligence (AI) planning. It was developed in 1998 and was introduced at ICAPS, with improvements and extensions being built into it over the years [[1]](https://en.wikipedia.org/wiki/Planning_Domain_Definition_Language#De_facto_official_versions_of_PDDL). 
 
 The most popular of PDDL used today are PDDL2.1, which is an extension to PDDL for expressing temporal domains [[2]](http://www.jair.org/papers/paper1129.html); PDDL 3 [[3]](http://www.cs.yale.edu/homes/dvm/papers/pddl-ipc5.pdf) which adds trajectory constraints and preferences to PDDL 2.1, and PDDL+ [[4]](http://www.jair.org/papers/paper2044.html) which allows modelling mixed discrete-continuous domains in PDDL.
 
 ## Environment Setup
 
-You can use your own text editor, but I would recommend using [Sublime Text](https://www.sublimetext.com/) with [Package Control](http://packagecontrol.io). This way you can make use of the [myPDDL package](https://github.com/Pold87/myPDDL), which will give you syntax higlighting.
+You can use your own text editor, but I would recommend using [Sublime Text](https://www.sublimetext.com/) with [Package Control](http://packagecontrol.io). This way you can make use of the [myPDDL package](https://github.com/Pold87/myPDDL), which will give you syntax higlighting. 
 
 ## Components of PDDL
 
-Before we start writing PDDL, we need to understand what how to model a "world" in PDDL.
+Before we start writing PDDL, we need to understand what how to model a "world" in PDDL. 
 
-A world is described by a set of states, each containing a list of **facts** and/or **objects**. A world begins with an **initial state**, and is governed by a set of rules and constraints that limit which **actions** can be taken in each state, and each action generally represents a transition to a different state.
+A world is described by a set of states, each containing a list of **facts** and/or **objects**. A world begins with an **initial state**, and is governed by a set of rules and constraints that limit which **actions** can be taken in each state, and each action generally represents a transition to a different state. 
 
-There are certain things we need to keep track of in the "world".
+There are certain things we need to keep track of in the "world". 
 
 - **Objects**: Things in the world that interest us.
 - **Predicates**: Facts that we are interested in (e.g. properties of objects), which can be true or false.
@@ -34,13 +34,13 @@ There are certain things we need to keep track of in the "world".
 
 ## PDDL Syntax
 
-First thing you need to know, PDDL files usually have the extension `.pddl`.
+First thing you need to know, PDDL files usually have the extension `.pddl`. 
 
 There are two PDDL files you need to learn the syntax of:
 
 ### The Domain File
 
-The domain file establishes the context of the world. It determines what sorts of details the states can include (predicates), and what can we do to move between states in the world (actions).
+The domain file establishes the context of the world. It determines what sorts of details the states can include (predicates), and what can we do to move between states in the world (actions). 
 
 The basic syntax of a domain file is:
 ```
@@ -48,7 +48,7 @@ The basic syntax of a domain file is:
   (:predicates
     <predicate-list>
   )
-
+  
   (:action
     <action-details>
   )
@@ -57,25 +57,37 @@ The basic syntax of a domain file is:
 
 where `<domain-name>` is the name of the world.
 
-#### Predicates
-
-If you remember, I mentioned earlier that predicates are facts that we are interested in (e.g. properties of objects), which can be true or false. They can also be properties of objects.
-
-#### Actions
-
-Actions, in their simplest form, represent transitions between states in the world. They usually have conditions which must be true in order for them to take place, and effects which change facts in the world.
-
 Both **predicates** and **actions** will become clearer in examples below.
 
 ### The Problem File
 
-TBC
+The problem file represents an instance of the world we established in the domain. It determines what is true at the start of the plan (initial state), and what we want to be true at the end of the plan (goal state). 
+
+The basic syntax of a problem file is:
+
+```
+(define (problem <title>)
+	(:domain <domain-name>)
+	(:objects
+    	<object-list>
+	)
+
+	(:init
+		<predicates>
+	)
+	(:goal 
+		<predicates>
+	)
+)
+```
+
+where `<title>` is the title of the problem file and `<domain-name>` refers to the name of the corresponding domain file.
 
 ## Simple Example: Let's Eat!
 
-![Gripper](img/arm-cupcake.png)
+![Gripper](img/gripper.png)
 
-Let's imagine we have a robot gripper arm, a cupcake and a plate. The gripper is empty, the cupcake is on the table and we want to put the cupcake on the plate.
+Let's imagine we have a robot gripper arm, a cupcake and a plate. The gripper is empty, the cupcake is on the table and we want to put the cupcake on the plate. 
 
 Before we model this in PDDL, let's look at the components of the PDDL problem:
 
@@ -87,7 +99,7 @@ First we define the domain.
 
 Then we define the **objects**: plate, gripper, cupcake. We will also mark the cupcake and the arm as locatable, a little hack to help us query the locations of these objects using a predicate we'll create later.
 ```  
-(:requirements :typing)
+(:requirements :typing) 
 
 (:types         
     location locatable - object
@@ -114,16 +126,16 @@ We'll also have to define **actions/operators**. We need to be able to pick up a
     ?cupcake - locatable
     ?loc - location)
   :precondition
-   (and
+   (and 
       ; Note how we use the same variable loc
       ; in both lines below. This is to make
       ; sure it's looking at the same location.
-      (on ?arm ?loc)
-      (on ?cupcake ?loc)
+      (on ?arm ?loc) 
+      (on ?cupcake ?loc) 
       (arm-empty)
     )
   :effect
-   (and
+   (and 
       (not (on ?cupcake ?loc))
       (holding ?arm ?cupcake)
       (not (arm-empty))
@@ -136,12 +148,12 @@ We'll also have to define **actions/operators**. We need to be able to pick up a
     ?cupcake - locatable
     ?loc - location)
   :precondition
-   (and
+   (and 
       (on ?arm ?loc)
       (holding ?arm ?cupcake)
     )
   :effect
-   (and
+   (and 
       (on ?cupcake ?loc)
       (arm-empty)
       (not (holding ?arm ?cupcake))
@@ -154,18 +166,18 @@ We'll also have to define **actions/operators**. We need to be able to pick up a
     ?from - location
     ?to - location)
   :precondition
-   (and
-    (on ?arm ?from)
+   (and 
+    (on ?arm ?from) 
     (path ?from ?to)
    )
   :effect
-   (and
+   (and 
     (not (on ?arm ?from))
     (on ?arm ?to)
    )
 )
 ```
-
+ 
 Put all the above into a file, and you have [a domain file](https://github.com/fareskalaboud/LearnPDDL/blob/master/files/letseat/domain.pddl)!
 
 Now we'll look at the problem file. We'll start by letting it know which domain it's associated to, and define the objects that exist in the world.
@@ -190,7 +202,7 @@ Then, we'll define the **initial state**: the gripper is empty, the cupcake is o
 ```
 Finally, we define the **goal specification**: the cupcake on in the plate.
 ```
-(:goal
+(:goal 
 	(on cupcake plate)
 )
 ```
@@ -222,13 +234,13 @@ Here are a few tasks to make it more complex and enforce your understanding.
 - Add a second cupcake on the table, and add it to the goal spec to make sure it's put on the plate as well.
 - Add a unicorn object to the domain, and make the goal for the unicorn to eat the cupcake. The unicorn can only eat the cupcake if it's on the plate.
 
-## Not-so-Simple Example
+## Not-as-Simple Example
 
 If you want to check out something a bit more complex, check out the [driverlog domain](https://github.com/fareskalaboud/LearnPDDL/tree/master/files/driverlog).
 
 ## Past the Basics
 
-If you're a first timer, don't venture into this part until after you've fully understood the basics.
+If you're a first timer, don't venture into this part until after you've fully understood the basics. 
 
 ### Domains: Durative Actions
 
@@ -255,7 +267,7 @@ If you'd like to be listed as  a Contributor, make a [pull request](https://gith
 
 [1] [PDDL's Wikipedia Page](https://en.wikipedia.org/wiki/Planning_Domain_Definition_Language#De_facto_official_versions_of_PDDL)
 
-[2] Fox, M. and Long, D. (2003). PDDL2.1: An Extension to PDDL for Expressing Temporal Planning Domains. [online] Available at: [http://www.jair.org/papers/paper1129.html](http://www.jair.org/papers/paper1129.html) [Accessed 20 Nov. 2017].
+[2] Fox, M. and Long, D. (2003). PDDL2.1: An Extension to PDDL for Expressing Temporal Planning Domains. [online] Available at: [http://www.jair.org/papers/paper1129.html](http://www.jair.org/papers/paper1129.html) [Accessed 20 Nov. 2017]. 
 
 [3] Gerevini, A. and Long, D. (2005) Plan Constraints and Preferences in PDDL3. Volume 27, pages 235-297. [online] Available at [http://www.cs.yale.edu/homes/dvm/papers/pddl-ipc5.pdf](http://www.cs.yale.edu/homes/dvm/papers/pddl-ipc5.pdf)
 
