@@ -67,23 +67,164 @@ Actions, in their simplest form, represent transitions between states in the wor
 
 Both **predicates** and **actions** will become clearer in examples below.
 
-## Simple Example
+### The Problem File
+
+TBC
+
+## Simple Example: Let's Eat!
 
 ![Gripper](img/gripper.png)
 
-Let's imagine we have a robot arm (we'll call it Gripper), a block and a box. The gripper is empty, the block is on the table and we want to put the block in the box. 
+Let's imagine we have a robot gripper arm, a cupcake and a plate. The gripper is empty, the cupcake is on the table and we want to put the cupcake on the plate. 
 
 Before we model this in PDDL, let's look at the components of the PDDL problem:
 
-- **Objects**: box, gripper, block.
-- **Predicates**: Is the gripper arm empty? Where is the block?
-- **An initial state**: The gripper arm is empty, the block is on the table.
-- **Goal specification**: The gripper arm is empty, the block is in the box.
-- **Actions/Operators**: Pick up the block, drop the block.
+First we define the domain.
 
-[TBC]
+```
+(define (domain letseat)
+```
+
+Then we define the **objects**: plate, gripper, cupcake. We will also mark the cupcake and the arm as locatable, a little hack to help us query the locations of these objects using a predicate we'll create later.
+```  
+(:requirements :typing) 
+
+(:types         
+    location locatable - object
+	bot cupcake - locatable
+    robot - bot
+)
+```
+We also need to define some **predicates**. Is the gripper arm empty? Where is the cupcake?
+
+```
+(:predicates
+	(on ?obj - locatable ?loc - location)
+	(holding ?arm - locatable ?cupcake - locatable)
+    (arm-empty)
+    (path ?location1 - location ?location2 - location)
+)
+```
+
+We'll also have to define **actions/operators**. We need to be able to pick up and drop the cupcake, as well as move the arm between the table and the plate.
+```
+(:action pick-up
+  :parameters
+   (?arm - bot
+    ?cupcake - locatable
+    ?loc - location)
+  :precondition
+   (and 
+      ; Note how we use the same variable loc
+      ; in both lines below. This is to make
+      ; sure it's looking at the same location.
+      (on ?arm ?loc) 
+      (on ?cupcake ?loc) 
+      (arm-empty)
+    )
+  :effect
+   (and 
+      (not (on ?cupcake ?loc))
+      (holding ?arm ?cupcake)
+      (not (arm-empty))
+   )
+)
+
+(:action drop
+  :parameters
+   (?arm - bot
+    ?cupcake - locatable
+    ?loc - location)
+  :precondition
+   (and 
+      (on ?arm ?loc)
+      (holding ?arm ?cupcake)
+    )
+  :effect
+   (and 
+      (on ?cupcake ?loc)
+      (arm-empty)
+      (not (holding ?arm ?cupcake))
+   )
+)
+
+(:action move
+  :parameters
+   (?arm - bot
+    ?from - location
+    ?to - location)
+  :precondition
+   (and 
+    (on ?arm ?from) 
+    (path ?from ?to)
+   )
+  :effect
+   (and 
+    (not (on ?arm ?from))
+    (on ?arm ?to)
+   )
+)
+```
+ 
+Put all the above into a file, and you have [a domain file](https://github.com/fareskalaboud/LearnPDDL/blob/master/files/letseat/domain.pddl)!
+
+Now we'll look at the problem file. We'll start by letting it know which domain it's associated to, and define the objects that exist in the world.
+```
+(define (problem letseat-simple)
+	(:domain letseat)
+	(:objects
+    	arm - robot
+    	cupcake - cupcake
+    	table - location
+    	plate - location
+	)
+```
+Then, we'll define the **initial state**: the gripper is empty, the cupcake is on the table, and the arm can move between both.
+```
+(:init
+	(on arm table)
+	(on cupcake table)
+	(arm-empty)
+	(path table plate)
+)
+```
+Finally, we define the **goal specification**: the cupcake on in the plate.
+```
+(:goal 
+	(on cupcake plate)
+)
+```
+Put that all together and you'll have [the problem file](https://github.com/fareskalaboud/LearnPDDL/blob/master/files/letseat/domain.pddl)!
+
+If you run this using [OPTIC](https://nms.kcl.ac.uk/planning/software/optic.html), you'll get this solution:
+
+```
+Initial heuristic = 3
+Initial stats: t=0s, 4299060kb
+b (2 @ n=3, t=0s, 4300084kb)b (1 @ n=6, t=0s, 4308276kb)
+;;;; Solution Found
+; Time 0.00
+; Peak memory 4308276kb
+; Nodes Generated: 5
+; Nodes Expanded:  3
+; Nodes Evaluated: 6
+; Nodes Tunneled:  1
+; Nodes memoised with open actions: 0
+; Nodes memoised without open actions: 6
+; Nodes pruned by memoisation: 0
+0: (pick-up arm cupcake table) [1]
+1: (move arm table plate) [1]
+2: (drop arm cupcake plate) [1]
+```
+
+#### Exercises:
+Here are a few tasks to make it more complex and enforce your understanding.
+- Add a second cupcake on the table, and add it to the goal spec to make sure it's put on the plate as well.
+- Add a unicorn object to the domain, and make the goal for the unicorn to eat the cupcake. The unicorn can only eat the cupcake if it's on the plate.
 
 ## Not-so-Simple Example
+
+If you want to check out something a bit more complex, check out the [driverlog domain](https://github.com/fareskalaboud/LearnPDDL/tree/master/files/driverlog).
 
 ## Past the Basics
 
@@ -100,8 +241,6 @@ TBC
 ### Domains: Processes & Events
 
 TBC
-
-### The Problem File
 
 
 
