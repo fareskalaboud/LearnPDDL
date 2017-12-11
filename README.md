@@ -242,19 +242,46 @@ If you want to check out something a bit more complex, check out the [driverlog 
 
 If you're a first timer, don't venture into this part until after you've fully understood the basics. 
 
-### Domains: Durative Actions
+### Durative Actions
+
+You can actually give actions durations to work in temporal domains.
+
+Each condition and effect is given the time at which it's supposed to happen.
+
+There are a few types of temporal constraints:
+
+`(at start (<condition/effect>))`, which means this must be true or happen at the start of the action.
+`(at end (<condition/effect>))` , which means this must be true or happen at the end of the action.
+`(over all (<condition>))`, which means this must be true for the full duration of the action.
+
+Below is an example of the `(move)` action from our previous example transformed into a durative action. 
+```
+(:durative-action move
+  :duration (= ?duration 10) ; Duration goes here.
+  :parameters
+   (?arm - bot
+    ?from - location
+    ?to - location)
+  :condition ; Note how this is "condition" not "pre-condition"
+   (and 
+    (at start (on ?arm ?from))
+    (over all (path ?from ?to))
+   )
+  :effect
+   (and 
+    (at start (not (on ?arm ?from)))
+    (at end (on ?arm ?to))
+   )
+)
+```
+
+### Functions
 
 TBC
 
-### Domains: Functions
+### Processes & Events
 
 TBC
-
-### Domains: Processes & Events
-
-TBC
-
-
 
 # Contributions
 
