@@ -206,7 +206,7 @@ Finally, we define the **goal specification**: the cupcake on in the plate.
 	(on cupcake plate)
 )
 ```
-Put that all together and you'll have [the problem file](https://github.com/fareskalaboud/LearnPDDL/blob/master/files/letseat/domain.pddl)!
+Put that all together and you'll have [the problem file](https://github.com/fareskalaboud/LearnPDDL/blob/master/files/letseat/pfile.pddl)!
 
 If you run this using [OPTIC](https://nms.kcl.ac.uk/planning/software/optic.html), you'll get this solution:
 
