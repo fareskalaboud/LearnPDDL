@@ -1,7 +1,5 @@
 # Getting Started with PDDL
 
-![#f03c15](https://placehold.it/15/f03c15/000000?text=+) **NOTICE**: This is a work in progress and is being updated weekly.
-
 Welcome to LearnPDDL, a short guide to getting started with using PDDL.
 
 This guide is designed for first-time readers, people who need refreshers and others, like myself, who sometimes need some syntax sanity-checking.
@@ -277,16 +275,91 @@ Below is an example of the `(move)` action from our previous example transformed
 
 ### Functions
 
-TBC
+Functions in PDDL are used to represent numeric values that can change over time as actions are executed. These functions are useful for more complex planning problems where simple predicates (true/false) are not enough. Functions allow planners to handle quantities like resources, distances, or costs. They're perfect for calculating variables like temperature, speed, energy, etc. 
+
+Functions in PDDL are defined using the :functions keyword within the domain file. They can be used within action definitions to update values dynamically.
+
+In the below example, the `distance` function defines the distance between two locations, and the `fuel` function keeps track of the fuel level in a vehicle. The `drive` action decreases the fuel level based on the distance traveled.
+
+```
+(define (domain logistics)
+  (:requirements :typing :fluents)
+
+  (:types
+    package location vehicle - object)
+
+  (:predicates
+    (at ?pkg - package ?loc - location)
+    (in ?pkg - package ?veh - vehicle)
+    (at ?veh - vehicle ?loc - location))
+
+  (:functions
+    (distance ?loc1 - location ?loc2 - location)
+    (fuel ?veh - vehicle))
+
+  (:action drive
+    :parameters (?veh - vehicle ?loc1 - location ?loc2 - location)
+    :precondition (and (at ?veh ?loc1) (> (fuel ?veh) (distance ?loc1 ?loc2)))
+    :effect (and (not (at ?veh ?loc1)) (at ?veh ?loc2) (decrease (fuel ?veh) (distance ?loc1 ?loc2))))
+
+  (:action load
+    :parameters (?pkg - package ?loc - location ?veh - vehicle)
+    :precondition (and (at ?pkg ?loc) (at ?veh ?loc))
+    :effect (and (not (at ?pkg ?loc)) (in ?pkg ?veh)))
+
+  (:action unload
+    :parameters (?pkg - package ?loc - location ?veh - vehicle)
+    :precondition (and (in ?pkg ?veh) (at ?veh ?loc))
+    :effect (and (at ?pkg ?loc) (not (in ?pkg ?veh))))
+)
+```
 
 ### Processes & Events
 
-TBC
+PDDL+ introduces processes and events, which are crucial for modeling continuous change and exogenous events in dynamic systems. These elements allow for more realistic and flexible planning in environments where the state can change independently of the actions taken by the planner.
+
+#### Processes
+
+Processes represent continuous activities that change the state over time as long as certain conditions remain true. They are defined using the `:process` keyword. A process has conditions that need to be true for it to be active and effects that continuously change the state. If these conditions are true, the process is **always running**.
+
+In the below snippet, the `fuel-consumption` process continuously decreases the fuel level of a vehicle as long as it is moving, with the rate of consumption dependent on the vehicle's speed and the duration of movement.
+
+```
+(:process fuel-consumption
+  :parameters (?veh - vehicle)
+  :condition (at start (moving ?veh))
+  :effect (decrease (fuel ?veh) (* (speed ?veh) ?duration)))
+```
+
+Of course, you can set numeric constants in the effect of a process, not only variables.
+
+#### Events
+
+Events represent instantaneous occurrences that can change the state of the world. They are defined using the `:event` keyword. An event has a condition that triggers it and effects that change the state. Once the condition is true, it immediately activates.
+```
+(:event low-fuel
+  :parameters (?veh - vehicle)
+  :precondition (<= (fuel ?veh) 10)
+  :effect (not (moving ?veh)))
+```
+
+Processes and events add a layer of complexity and realism to PDDL models, allowing planners to handle continuous and unpredictable changes in the environment. 
+
+#### What's the difference between processes and events?
+
+Think of processes and events in PDDL as the AI planning world's equivalent of while loops and if statements in coding. 
+
+Imagine processes as the diligent while loops, tirelessly working in the background, constantly checking if certain conditions are met and then continuously performing their magic as long as those conditions hold true. They're like a robot that keeps vacuuming the floor as long as it detects dirt. 
+
+On the other hand, events are the snappy if statements, springing into action only when a specific condition is met, just once, and then they move on. They're like a toaster that pops up when your bread is perfectly toasted.
+
+Processes are the steady workers maintaining ongoing tasks, events are the quick responders, handling sudden changes with swift precision.
 
 # Contributions
 
 - **[Fares Alaboud](http://faresalaboud.me)** (Author)
 - **[Dr. Andrew Coles](http://nms.kcl.ac.uk/andrew.coles)** (Editor)
+- **[Jan Dolejsi](https://github.com/jan-dolejsi)** (Contributor)
 
 If you'd like to be listed as  a Contributor, make a [pull request](https://github.com/fareskalaboud/LearnPDDL/pulls).
 
