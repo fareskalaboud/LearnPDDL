@@ -14,7 +14,7 @@ The most popular of PDDL used today are PDDL2.1, which is an extension to PDDL f
 
 ## Environment Setup
 
-You can use your own text editor, the online editor at [planning.domains](http://editor.planning.domains), but I would recommend using [Visual Studio Code](https://code.visualstudio.com/#alt-downloads) with the [PDDL](https://marketplace.visualstudio.com/items?itemName=jan-dolejsi.pddl) extension, which will give you syntax higlighting, hover-over information, auto-completion, plan visualization and validation and more. It also automatically downloads the VAL binaries and.
+You can use your own text editor, the online editor at [planning.domains](http://editor.planning.domains), but I would recommend using [Visual Studio Code](https://code.visualstudio.com/#alt-downloads) with the [PDDL](https://marketplace.visualstudio.com/items?itemName=jan-dolejsi.pddl) extension built by the amazing [Jan Dolejsi](https://github.com/jan-dolejsi), which will give you syntax higlighting, hover-over information, auto-completion, plan visualization and validation and more. It also automatically downloads the VAL binaries and.
 
 ## Components of PDDL
 
