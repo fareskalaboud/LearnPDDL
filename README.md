@@ -360,6 +360,7 @@ Processes are the steady workers maintaining ongoing tasks, events are the quick
 - **[Fares Alaboud](http://faresalaboud.me)** (Author)
 - **[Dr. Andrew Coles](http://nms.kcl.ac.uk/andrew.coles)** (Editor)
 - **[Jan Dolejsi](https://github.com/jan-dolejsi)** (Contributor)
+- **[Daniel Kröni](https://github.com/danielkroeni)** (Contributor)
 
 If you'd like to be listed as  a Contributor, make a [pull request](https://github.com/fareskalaboud/LearnPDDL/pulls).
 
