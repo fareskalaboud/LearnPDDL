@@ -355,14 +355,16 @@ On the other hand, events are the snappy if statements, springing into action on
 
 Processes are the steady workers maintaining ongoing tasks, events are the quick responders, handling sudden changes with swift precision.
 
+# But wait, there's more?
+
+Of course there is. This is a very small guide, but can be improved greatly with your contribution. Feel free to submit a [pull request](https://github.com/fareskalaboud/LearnPDDL/pulls).
+
 # Contributions
 
 - **[Fares Alaboud](http://faresalaboud.me)** (Author)
 - **[Dr. Andrew Coles](http://nms.kcl.ac.uk/andrew.coles)** (Editor)
 - **[Jan Dolejsi](https://github.com/jan-dolejsi)** (Contributor)
 - **[Daniel Kröni](https://github.com/danielkroeni)** (Contributor)
-
-If you'd like to be listed as  a Contributor, make a [pull request](https://github.com/fareskalaboud/LearnPDDL/pulls).
 
 # References
 
